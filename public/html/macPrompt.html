@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electron Update Example</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    html {
+      background-color: transparent;
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #222020;
+      width: 100%;
+      height: 100%;
+      color: whitesmoke;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    img {
+      display: block;
+      height: 100px;
+      width: auto;
+      pointer-events: none;
+      margin-bottom: 20px;
+    }
+    #title {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    #appPath {
+      background-color: #333;
+      color: orange;
+      border: none;
+      padding: 10px;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px 0;
+      word-break: break-word;
+      cursor: text;
+    }
+    #instructions {
+      font-size: 18px;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+    button {
+      background-color: orange;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #ffcc00;
+    }
+    ol {
+      text-align: left;
+      list-style-type: disc;
+      list-style-position: outside;
+      margin-left: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <div><img src="../images/logo.png" alt="Logo"></div>
+  <p id="title">Admin Permission Required</p>
+  <div id="instructions">
+    <p>Please follow these steps to run the application as an administrator:</p>
+    <ol>
+      <li>Open the <strong>Terminal</strong> application on your Mac.</li>
+      <li>
+        Copy the command, specified below.
+      </li>
+      <li>Paste it into the Terminal window by right-clicking and selecting <strong>Paste</strong> or pressing <strong>Cmd + V</strong>.</li>
+      <li>Press <strong>Enter</strong> to execute the command.</li>
+    </ol>
+  </div>
+  <p id="appPath"></p>
+  <p style="color: white;">To copy the command, click the button below:</p>
+  <br/>
+  <button onclick="copyPath()">Copy Command</button>
+
+  <script>
+    async function copyPath() {
+      try {
+        const command = document.getElementById('appPath').innerText;
+        await navigator.clipboard.writeText(command);
+        alert('Command copied to clipboard! You can paste it in Terminal.');
+      } catch (error) {
+        alert('Failed to copy command: ' + error);
+      }
+    }
+
+    // Set the command for the user to run
+    try {
+      const instruction = document.getElementById('appPath');
+      instruction.innerText = `sudo "${window.api.getAppPath()}"`;
+    } catch (error) {
+      alert('Error retrieving app path: ' + error);
+    }
+  </script>
+</body>
+</html>
